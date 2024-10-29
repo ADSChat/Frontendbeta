@@ -6,39 +6,106 @@
     <title>Canary Chat</title>
     <style>
         body {
-            background-color: #000000;
+            background-color: #2C2F33;
             color: #FFFFFF;
             font-family: Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             height: 100vh;
             margin: 0;
         }
+        .header {
+            width: 100%;
+            padding: 20px;
+            background-color: #40444B;
+            text-align: center;
+            font-size: 24px;
+            border-bottom: 2px solid #7289DA;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            max-width: 800px;
+            height: 80%;
+            background-color: #7289DA;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-top: 10px;
+        }
         .chat-content {
-            width: 80%;
-            max-width: 600px;
+            flex: 1;
             background-color: #23272A;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow-y: auto;
-            flex: 1;
+            margin-bottom: 10px;
         }
         .message {
             margin: 10px 0;
             padding: 10px;
             background-color: #333;
-            border-radius: 5px;
+            border-radius: 10px;
         }
         .chat-input {
-            width: 80%;
-            max-width: 600px;
-            padding: 10px;
-            border-radius: 5px;
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
             border: none;
-            margin-top: 10px;
             font-size: 16px;
+            background-color: #40444B;
+            color: #FFFFFF;
+        }
+        .online-users {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #40444B;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+        }
+        .form-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(50, 50, 50, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 20px;
+        }
+        .form input {
+            width: 300px;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .form button {
+            background-color: #FFDF00;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: black;
+            margin-top: 20px;
+        }
+        .form a {
+            color: #FFDF00;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .form-toggle {
+            margin-top: 20px;
+            cursor: pointer;
+            color: #FFDF00;
         }
     </style>
     <!-- Firebase SDKs -->
@@ -60,8 +127,33 @@
     </script>
 </head>
 <body>
-    <div class="chat-content" id="chatContent"></div>
-    <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
+    <div class="header">
+        <img src="logo.png" alt="Logo" style="height: 40px; vertical-align: middle;"> Canary Chat
+    </div>
+    <div class="form-container" id="loginForm">
+        <h1>Login</h1>
+        <div class="form">
+            <input type="email" placeholder="Email" id="loginEmail">
+            <input type="password" placeholder="Password" id="loginPassword">
+            <button onclick="login()">Login</button>
+            <p class="form-toggle" onclick="toggleForms()">Don't have an account? Register</p>
+        </div>
+    </div>
+    <div class="form-container" id="registerForm">
+        <h1>Register</h1>
+        <div class="form">
+            <input type="text" placeholder="Username" id="registerUsername">
+            <input type="email" placeholder="Email" id="registerEmail">
+            <input type="password" placeholder="Password" id="registerPassword">
+            <button onclick="register()">Register</button>
+            <p class="form-toggle" onclick="toggleForms()">Already have an account? Login</p>
+        </div>
+    </div>
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-content" id="chatContent"></div>
+        <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
+    </div>
+    <div class="online-users" id="onlineUsers">Online Users: 0</div>
     <script src="index.js"></script>
 </body>
 </html>
