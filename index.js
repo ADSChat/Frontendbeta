@@ -41,9 +41,10 @@ document.getElementById('chatInput').addEventListener('keypress', function (e) {
         const message = this.value;
         const timestamp = Date.now();
         // Save message to Firebase
-        db.ref('messages/' + timestamp).set({
+        db.ref('messages').push({
             sender: firebase.auth().currentUser.email,
-            message: message
+            message: message,
+            timestamp: timestamp
         });
         this.value = '';
     }
