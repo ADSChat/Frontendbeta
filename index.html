@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canary Chat</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #FFFFFF;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .chat-content {
+            width: 80%;
+            max-width: 600px;
+            background-color: #23272A;
+            padding: 20px;
+            border-radius: 10px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 5px;
+        }
+        .chat-input {
+            width: 80%;
+            max-width: 600px;
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin-top: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-content" id="chatContent"></div>
+    <input type="text" id="chatInput" class="chat-input" placeholder="Type a message...">
+    <script src="index.js"></script>
+</body>
+</html>
