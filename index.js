@@ -1,5 +1,39 @@
 const db = firebase.database();
+let onlineUsers = 0;
 
+// Login functionality
+document.getElementById('loginButton').addEventListener('click', function() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('chatApp').style.display = 'block';
+            document.getElementById('loggedInUser').textContent = userCredential.user.email;
+        })
+        .catch((error) => {
+            alert(error.message);
+        });
+});
+
+// Signup functionality
+document.getElementById('signupButton').addEventListener('click', function() {
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('chatApp').style.display = 'block';
+            document.getElementById('loggedInUser').textContent = userCredential.user.email;
+        })
+        .catch((error) => {
+            alert(error.message);
+        });
+});
+
+// Chat functionality
 document.getElementById('chatInput').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         const message = this.value;
@@ -7,7 +41,7 @@ document.getElementById('chatInput').addEventListener('keypress', function (e) {
 
         // Save message to Firebase
         db.ref('messages/' + timestamp).set({
-            sender: 'You',
+            sender: firebase.auth().currentUser.email,
             message: message
         });
 
@@ -26,3 +60,11 @@ function appendMessage(sender, message) {
     messageElement.textContent = `${sender}: ${message}`;
     document.getElementById('chatContent').appendChild(messageElement);
 }
+
+// Track online users (example logic, adjust as needed)
+db.ref('.info/connected').on('value', function(snapshot) {
+    if (snapshot.val() === true) {
+        onlineUsers++;
+        document.getElementById('onlineUsers').textContent = `Online Users: ${onlineUsers}`;
+    }
+});
