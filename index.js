@@ -1,20 +1,23 @@
+const db = firebase.database();
+
 document.getElementById('chatInput').addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
         const message = this.value;
-        appendMessage('You', message); // Show user's message
+        const timestamp = Date.now();
 
-        fetch('/.netlify/functions/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message })
-        })
-        .then(response => response.json())
-        .then(data => {
-            appendMessage('Bot', data.reply); // Show bot's reply
+        // Save message to Firebase
+        db.ref('messages/' + timestamp).set({
+            sender: 'You',
+            message: message
         });
 
         this.value = '';
     }
+});
+
+db.ref('messages').on('child_added', function(snapshot) {
+    const message = snapshot.val();
+    appendMessage(message.sender, message.message);
 });
 
 function appendMessage(sender, message) {
