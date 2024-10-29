@@ -1,6 +1,12 @@
 const db = firebase.database();
 let onlineUsers = 0;
 
+function toggleVisibility(showChat) {
+    document.getElementById('loginForm').style.display = showChat ? 'none' : 'block';
+    document.getElementById('signupForm').style.display = 'none';
+    document.getElementById('chatApp').style.display = showChat ? 'block' : 'none';
+}
+
 // Login functionality
 document.getElementById('loginButton').addEventListener('click', function() {
     const email = document.getElementById('loginEmail').value;
@@ -8,8 +14,7 @@ document.getElementById('loginButton').addEventListener('click', function() {
 
     firebase.auth().signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('chatApp').style.display = 'block';
+            toggleVisibility(true);
             document.getElementById('loggedInUser').textContent = userCredential.user.email;
         })
         .catch((error) => {
@@ -24,8 +29,7 @@ document.getElementById('signupButton').addEventListener('click', function() {
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-            document.getElementById('signupForm').style.display = 'none';
-            document.getElementById('chatApp').style.display = 'block';
+            toggleVisibility(true);
             document.getElementById('loggedInUser').textContent = userCredential.user.email;
         })
         .catch((error) => {
@@ -68,3 +72,6 @@ db.ref('.info/connected').on('value', function(snapshot) {
         document.getElementById('onlineUsers').textContent = `Online Users: ${onlineUsers}`;
     }
 });
+
+// Ensure chat interface is hidden initially
+toggleVisibility(false);
