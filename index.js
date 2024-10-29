@@ -41,7 +41,7 @@ document.getElementById('chatInput').addEventListener('keypress', function (e) {
         const message = this.value;
         const timestamp = Date.now();
         // Save message to Firebase
-        db.ref('messages').push({
+        db.ref('global_messages').push({
             sender: firebase.auth().currentUser.email,
             message: message,
             timestamp: timestamp
@@ -50,7 +50,7 @@ document.getElementById('chatInput').addEventListener('keypress', function (e) {
     }
 });
 
-db.ref('messages').on('child_added', function(snapshot) {
+db.ref('global_messages').on('child_added', function(snapshot) {
     const message = snapshot.val();
     appendMessage(message.sender, message.message);
 });
